@@ -2,16 +2,7 @@ from interestAPI import app
 from interestAPI import selenium_handler
 from datetime import datetime
 
-def read_from_file():
-    with open("DATA_FILE.txt", 'r') as file:
-        for line in file.readlines():
-            if line.startswith("INTEREST"):
-                cur_interest = line.split('=')[1].strip().strip("'")
-            elif line.startswith("NEXT_DATE"):
-                next_date = line.split('=')[1].strip().strip("'")
-    return {"Interest": cur_interest, 
-            "NextDate": next_date}
-
+### Retrieve Prime Interest and Date Of Next Decision.
 def refresh_data():
     # Retrieving Data from Bank Of Israel 
     DATA = interest = selenium_handler.get_interest()
@@ -24,6 +15,18 @@ def refresh_data():
         file.write(f"INTEREST={INTEREST}\n")
         file.write(f"NEXT_DATE={NEXT_DATE}\n")
 
+### Updates the file with the 'Prime Interest' and 'Next Date Of Decision'.
+def read_from_file():
+    with open("DATA_FILE.txt", 'r') as file:
+        for line in file.readlines():
+            if line.startswith("INTEREST"):
+                cur_interest = line.split('=')[1].strip().strip("'")
+            elif line.startswith("NEXT_DATE"):
+                next_date = line.split('=')[1].strip().strip("'")
+    return {"Interest": cur_interest, 
+            "NextDate": next_date}
+
+### Checks if the Next Date of Decision has already passed or is today.
 def validate_data(next_date):
     next_date = next_date
     date_format = "%d/%m/%Y"
@@ -46,13 +49,16 @@ def validate_data(next_date):
 
 @app.route('/api/interest/', methods=['GET'])
 def interest():
+    ## Get the data from the file (mainly the date) 
     data = read_from_file()
     next_date = data["NextDate"]
     
+    ## Checks to see if an update is needed, if so, run "refresh_data" command.
     if validate_data(next_date) == False:
         refresh_data()
         data = read_from_file()
     
+    ## Split data to variables
     cur_interest = data["Interest"]
     next_date = data["NextDate"]
 

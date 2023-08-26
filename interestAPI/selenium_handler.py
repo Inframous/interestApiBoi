@@ -5,14 +5,21 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-# import chromedriver_autoinstallerxxxxxxxxxxxxxx
+# Installing ChromeDriver
+
+## METHOD 1, webdriver_manager: 
+## (Comment out if you want to use chromedriver_autoinstaller)
 from webdriver_manager.chrome import ChromeDriverManager
 
-from time import sleep
 
-# Install and check the correct version of ChromeDriver
+## METHOD 2, chromedriver_autoinstaller:
+##  UnComment if you want to use chromedriver_autoinstaller
+# import chromedriver_autoinstaller
 # chromedriver_autoinstaller.install()
 
+### Code:
+
+## Retreives the interest and next date of decision.
 def get_interest():
     url = "https://www.boi.org.il/"
     
