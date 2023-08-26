@@ -15,7 +15,7 @@ sudo docker run -d -p 80:80 --restart always --name interestapi interestapi
 ```
 Point your browser at `http://<api_url>/api/interest/` to receive the latest information.
 
-### Docker Hub
+### Docker Hub (x86 only)
 Pull the image from Docker.io and run it.
 ```code
 sudo docker pull inframous/interestapi:latest
