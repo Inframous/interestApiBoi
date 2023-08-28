@@ -47,8 +47,8 @@ def validate_data(next_date):
 
 
 
-@app.route('/api/interest/', methods=['GET'])
-def interest():
+@app.route('/api/interest/boi', methods=['GET'])
+def boi_interest():
     ## Get the data from the file (mainly the date) 
     data = read_from_file()
     next_date = data["NextDate"]
@@ -62,5 +62,23 @@ def interest():
     cur_interest = data["Interest"]
     next_date = data["NextDate"]
 
-    return {"Interest": cur_interest,
-            "NextDate": next_date}
+    return {"BoiInterest": cur_interest,
+            "NextDecisionDate": next_date}
+
+@app.route('/api/interest/prime', methods=['GET'])
+def prime_interest():
+    ## Get the data from the file (mainly the date) 
+    data = read_from_file()
+    next_date = data["NextDate"]
+    
+    ## Checks to see if an update is needed, if so, run "refresh_data" command.
+    if validate_data(next_date) == False:
+        refresh_data()
+        data = read_from_file()
+    
+    ## Split data to variables
+    cur_interest = str((float(data["Interest"].replace('%','')) + 1.5)) + "%"
+    next_date = data["NextDate"]
+
+    return {"PrimeInterest": cur_interest,
+            "NextDecisionDate": next_date}

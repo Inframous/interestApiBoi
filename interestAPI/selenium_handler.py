@@ -35,7 +35,7 @@ def get_interest():
     driver.get(url)
 
     ## Set the waitForElement time to 10 seconds.
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
     print("Waiting for element...")
     interest = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "interestAndInflationValue")))
     next_date = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "interestAndInflationComment")))
